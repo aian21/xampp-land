@@ -1,19 +1,46 @@
-# xampp-land
+<p align="center">
+  <img src="docs/banner.svg" alt="xampp-land: a better landing page for XAMPP on Windows" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-8.0%2B-fb7a24?style=flat-square&logo=php&logoColor=white" alt="PHP 8.0+">
+  <img src="https://img.shields.io/badge/XAMPP-Windows-fb7a24?style=flat-square&logo=xampp&logoColor=white" alt="XAMPP for Windows">
+  <img src="https://img.shields.io/badge/dependencies-none-1f9d55?style=flat-square" alt="No dependencies">
+  <img src="https://img.shields.io/badge/build_step-none-1f9d55?style=flat-square" alt="No build step">
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#install">Install</a> ·
+  <a href="#keyboard">Keyboard</a> ·
+  <a href="#security">Security</a>
+</p>
+
+---
 
 A replacement landing page for XAMPP on Windows. It lists every project in `htdocs` and fixes phpMyAdmin when it stops working.
 
 Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/projects-dark.png">
+  <img src="docs/projects-light.png" alt="The Projects tab, showing project cards with type, git branch and tags" width="100%">
+</picture>
+
 ## Features
 
-**Projects**
+### Projects
+
 - Lists every folder in `htdocs` and detects what it is: PHP, Laravel, CodeIgniter, WordPress, React, React Native, Vue, Angular, Svelte, Next.js, Node, HTML
 - Shows git branch, last change, and tags such as Vite, Tailwind, TypeScript and `.env`
 - Opens Laravel projects at `/public/` and JS projects at their built `dist/` or `build/` folder
 - Search (`/`), filter by type, sort, grid or list view, pin favourites, copy folder path
 - Lists `.zip` / `.rar` / `.7z` archives sitting in `htdocs`
 
-**phpMyAdmin Doctor**
+### phpMyAdmin Doctor
+
+<img src="docs/doctor.svg" alt="The Doctor running its checks, finding MySQL stopped, and fixing it with one click" width="100%">
+
 - Checks: mysqli extension, `config.inc.php`, whether MySQL is running (and what is using the port if it isn't), port mismatch, login (`#1045 Access denied`), control user, `blowfish_secret`, tmp folder, and what `/phpmyadmin/` actually returns
 - Reads `mysql_error.log` to explain why MySQL failed to start
 - One-click fixes: start MySQL, set credentials (tested before saving), switch between auto login and login screen, fix port, generate cookie secret, disable control user, reset config, repair MySQL from `mysql\backup` ("MySQL shutdown unexpectedly")
@@ -22,24 +49,33 @@ Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 
 ## Install
 
-1. Clone into `htdocs`:
+**1. Clone into `htdocs`**
 
-   ```
-   cd C:\xampp\htdocs
-   git clone https://github.com/aian21/xampp-land.git
-   ```
+```
+cd C:\xampp\htdocs
+git clone https://github.com/aian21/xampp-land.git
+```
 
-2. Make it the landing page. Back up `C:\xampp\htdocs\index.php`, then replace its contents with:
+**2. Make it the landing page.** Back up `C:\xampp\htdocs\index.php`, then replace its contents with:
 
-   ```php
-   <?php
-   header('Location: /xampp-land/');
-   exit;
-   ```
+```php
+<?php
+header('Location: /xampp-land/');
+exit;
+```
 
-3. Open http://localhost/
+**3. Open http://localhost/**
 
-The folder can have any name. If you rename it, change the redirect in step 2 to match.
+> [!TIP]
+> The folder can have any name. If you rename it, change the redirect in step 2 to match.
+
+## Keyboard
+
+| Key | Action |
+| --- | --- |
+| <kbd>/</kbd> | Search projects |
+| <kbd>Enter</kbd> | Open the first result |
+| <kbd>Esc</kbd> | Clear the search |
 
 ## Requirements
 
@@ -50,7 +86,8 @@ The folder can have any name. If you rename it, change the redirect in step 2 to
 
 The Doctor reads and edits server config, so it only responds to requests from `localhost`. Fix requests also need a session CSRF token. The project list is visible to anyone who can reach your Apache server, just as `htdocs` already is.
 
-Don't expose XAMPP to the internet.
+> [!WARNING]
+> Don't expose XAMPP to the internet.
 
 ## Restoring the XAMPP dashboard
 

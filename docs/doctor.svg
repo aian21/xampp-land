@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="944" height="524" viewBox="-32 -28 944 524" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+<style>
+  svg { --bg:#f6f7f9; --surface:#ffffff; --border:#e2e5ea; --text:#16181d; --muted:#646b78; --accent:#fb7a24; --accent-ink:#ffffff; --ok:#1f9d55; --fail:#d64545; --info:#3b82f6; }
+  @media (prefers-color-scheme: dark) {
+    svg { --bg:#0e1014; --surface:#161920; --border:#2a2f3a; --text:#e8eaee; --muted:#8b93a3; --accent:#ff8a3d; --accent-ink:#14100c; --ok:#3ccf7f; --fail:#f07171; --info:#6aa5ff; }
+  }
+  .t { font-size: 15px; font-weight: 600; fill: var(--text); }
+  .s { font-size: 12.5px; fill: var(--muted); }
+  .muted { fill: var(--muted); font-weight: 500; }
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .press { animation: press 11s linear infinite; transform-box: fill-box; transform-origin: center; }
+  .cursor { animation: cur 11s cubic-bezier(.4,0,.2,1) infinite; }
+@keyframes k0{0%,7.2%{opacity:1}8%,100%{opacity:0}}
+@keyframes k1{0%,7.2%{opacity:0}8%,93%{opacity:1}95%,100%{opacity:0}}
+@keyframes k2{0%,14.2%{opacity:1}15%,100%{opacity:0}}
+@keyframes k3{0%,14.2%{opacity:0}15%,93%{opacity:1}95%,100%{opacity:0}}
+@keyframes k4{0%,21.2%{opacity:1}22%,100%{opacity:0}}
+@keyframes k5{0%,21.2%{opacity:0}22%,53%{opacity:1}55%,100%{opacity:0}}
+@keyframes k6{0%,23.2%{opacity:0}24%,53%{opacity:1}55%,100%{opacity:0}}
+@keyframes k7{0%,53.2%{opacity:0}54%,93%{opacity:1}95%,100%{opacity:0}}
+@keyframes k8{0%,59.2%{opacity:1}60%,100%{opacity:0}}
+@keyframes k9{0%,59.2%{opacity:0}60%,93%{opacity:1}95%,100%{opacity:0}}
+@keyframes k10{0%,28.2%{opacity:1}29%,100%{opacity:0}}
+@keyframes k11{0%,28.2%{opacity:0}29%,93%{opacity:1}95%,100%{opacity:0}}
+@keyframes cur{0%,34%{opacity:0;transform:translate(580px,486px)}38%{opacity:1}45%{opacity:1;transform:translate(790px,309px)}58%{opacity:1;transform:translate(790px,309px)}62%,100%{opacity:0;transform:translate(790px,309px)}}
+@keyframes press{0%,46%{transform:none}47%{transform:scale(.94)}49%,100%{transform:none}}
+@keyframes k12{0%,32.2%{opacity:1}33%,100%{opacity:0}}
+@keyframes k13{0%,32.2%{opacity:0}33%,53%{opacity:1}55%,100%{opacity:0}}
+@keyframes k14{0%,53.2%{opacity:0}54%,61%{opacity:1}63%,100%{opacity:0}}
+@keyframes k15{0%,61.2%{opacity:0}62%,93%{opacity:1}95%,100%{opacity:0}}
+</style>
+<rect x="-32" y="-28" width="944" height="524" fill="var(--bg)"/>
+<text x="0" y="34" font-size="24" font-weight="700" style="fill:var(--text)">phpMyAdmin Doctor</text>
+<text x="0" y="62" class="s" style="font-size:14px">Checks MySQL, your phpMyAdmin config and the page itself, then fixes what it can.</text>
+<rect x="0" y="92" width="880" height="50" fill="var(--surface)" stroke="var(--border)"/>
+<g style="animation:k12 11s linear infinite"><text x="22" y="123" class="t muted">Running checks…</text></g><g style="animation:k13 11s linear infinite"><rect x="1" y="92" width="878" height="50" fill="none" stroke="var(--fail)"/><text x="22" y="123" class="t">1 problem found. Use the buttons below to fix them.</text></g><g style="animation:k14 11s linear infinite"><text x="22" y="123" class="t muted">Running checks again…</text></g><g style="animation:k15 11s linear infinite"><rect x="1" y="92" width="878" height="50" fill="none" stroke="var(--ok)"/><text x="22" y="123" class="t">phpMyAdmin should work.</text></g>
+<rect x="0.5" y="164" width="879" height="290" fill="var(--surface)" stroke="var(--border)"/>
+<line x1="0" y1="164" x2="878" y2="164" stroke="var(--border)"/><g style="animation:k0 11s linear infinite"><g transform="translate(33 185)"><g class="spin"><rect x="-8" y="-8" width="16" height="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="20 12"/></g></g><text x="56" y="190" class="t muted">Checking the mysqli extension…</text></g><g style="animation:k1 11s linear infinite"><g transform="translate(22 174)"><rect width="22" height="22" fill="var(--ok)"/><path d="M6 11.5l3.5 3.5L16 7.5" fill="none" stroke="#fff" stroke-width="2.2"/></g><text x="56" y="188" class="t">PHP mysqli extension loaded</text><text x="56" y="207" class="s">PHP 8.2.12</text></g><line x1="0" y1="222" x2="878" y2="222" stroke="var(--border)"/><g style="animation:k2 11s linear infinite"><g transform="translate(33 243)"><g class="spin"><rect x="-8" y="-8" width="16" height="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="20 12"/></g></g><text x="56" y="248" class="t muted">Loading config.inc.php…</text></g><g style="animation:k3 11s linear infinite"><g transform="translate(22 232)"><rect width="22" height="22" fill="var(--ok)"/><path d="M6 11.5l3.5 3.5L16 7.5" fill="none" stroke="#fff" stroke-width="2.2"/></g><text x="56" y="246" class="t">config.inc.php loads correctly</text><text x="56" y="265" class="s">auth_type = config, user = root, host = 127.0.0.1:3306</text></g><line x1="0" y1="280" x2="878" y2="280" stroke="var(--border)"/><g style="animation:k4 11s linear infinite"><g transform="translate(33 301)"><g class="spin"><rect x="-8" y="-8" width="16" height="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="20 12"/></g></g><text x="56" y="306" class="t muted">Checking MySQL…</text></g><g style="animation:k5 11s linear infinite"><g transform="translate(22 290)"><rect width="22" height="22" fill="var(--fail)"/><path d="M7 7l8 8M15 7l-8 8" stroke="#fff" stroke-width="2.2"/></g><text x="56" y="304" class="t">MySQL is not running</text><text x="56" y="323" class="s">phpMyAdmin needs MySQL running. Start it here or from the XAMPP Control Panel.</text></g><g style="animation:k6 11s linear infinite"><g class="press"><rect x="730" y="292" width="128" height="34" fill="var(--accent)"/><text x="794" y="314" text-anchor="middle" class="t" fill="var(--accent-ink)" style="fill:var(--accent-ink)">Start MySQL</text></g></g><g style="animation:k7 11s linear infinite"><g transform="translate(22 290)"><rect width="22" height="22" fill="var(--ok)"/><path d="M6 11.5l3.5 3.5L16 7.5" fill="none" stroke="#fff" stroke-width="2.2"/></g><text x="56" y="304" class="t">MySQL is running</text><text x="56" y="323" class="s">Listening on port 3306</text></g><line x1="0" y1="338" x2="878" y2="338" stroke="var(--border)"/><g style="animation:k8 11s linear infinite"><g transform="translate(33 359)"><g class="spin"><rect x="-8" y="-8" width="16" height="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="20 12"/></g></g><text x="56" y="364" class="t muted">Waiting for MySQL…</text></g><g style="animation:k9 11s linear infinite"><g transform="translate(22 348)"><rect width="22" height="22" fill="var(--ok)"/><path d="M6 11.5l3.5 3.5L16 7.5" fill="none" stroke="#fff" stroke-width="2.2"/></g><text x="56" y="362" class="t">Logged in as root</text><text x="56" y="381" class="s">MariaDB/MySQL 10.4.32-MariaDB · 6 databases</text></g><line x1="0" y1="396" x2="878" y2="396" stroke="var(--border)"/><g style="animation:k10 11s linear infinite"><g transform="translate(33 417)"><g class="spin"><rect x="-8" y="-8" width="16" height="16" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="20 12"/></g></g><text x="56" y="422" class="t muted">Checking the tmp folder…</text></g><g style="animation:k11 11s linear infinite"><g transform="translate(22 406)"><rect width="22" height="22" fill="var(--ok)"/><path d="M6 11.5l3.5 3.5L16 7.5" fill="none" stroke="#fff" stroke-width="2.2"/></g><text x="56" y="420" class="t">phpMyAdmin tmp folder is writable</text><text x="56" y="439" class="s">C:\xampp\phpMyAdmin\tmp</text></g>
+<g class="cursor"><path d="M0 0v18l5-5 3.5 7 3-1.4-3.5-7H15z" fill="#fff" stroke="#16181d" stroke-width="1.3" stroke-linejoin="round"/></g>
+</svg>
