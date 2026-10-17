@@ -5,8 +5,8 @@
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   const store = {
-    get(k, d) { try { const v = localStorage.getItem('xf-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem('xf-' + k, JSON.stringify(v)); } catch (e) {} },
+    get(k, d) { try { const v = localStorage.getItem('xl-' + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem('xl-' + k, JSON.stringify(v)); } catch (e) {} },
   };
 
   const toast = (msg, fail = false) => {
@@ -30,7 +30,7 @@
     const dark = getComputedStyle(document.documentElement).colorScheme.includes('dark');
     const next = dark ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
-    try { localStorage.setItem('xf-theme', next); } catch (e) {}
+    try { localStorage.setItem('xl-theme', next); } catch (e) {}
   };
 
   function showTab(name) {
@@ -236,7 +236,7 @@
 
   /* What each write action does, shown in the warning modal before it runs. */
   const P = XF.paths || {};
-  const CFG_BACKUP = 'A copy of the current file is saved as config.inc.php.xf-<date> first, and can be restored under Other tools.';
+  const CFG_BACKUP = 'A copy of the current file is saved as config.inc.php.xl-<date> first, and can be restored under Other tools.';
   const WARNINGS = {
     save_connection: (p) => ({
       title: 'Overwrite phpMyAdmin connection settings?',

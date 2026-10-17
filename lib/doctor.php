@@ -240,7 +240,7 @@ function run_diagnostics(): array
 
 function list_config_backups(): array
 {
-    $files = glob(PMA_DIR . DIRECTORY_SEPARATOR . 'config.inc.php.xf-*') ?: [];
+    $files = glob(PMA_DIR . DIRECTORY_SEPARATOR . 'config.inc.php.xl-*') ?: [];
     rsort($files);
     return array_map(fn($f) => ['file' => basename($f), 'modified' => filemtime($f)], array_slice($files, 0, 10));
 }
@@ -248,7 +248,7 @@ function list_config_backups(): array
 function backup_config(): ?string
 {
     if (!file_exists(PMA_CONFIG)) return null;
-    $dest = PMA_CONFIG . '.xf-' . date('Ymd-His');
+    $dest = PMA_CONFIG . '.xl-' . date('Ymd-His');
     if (!@copy(PMA_CONFIG, $dest)) {
         throw new RuntimeException('Could not back up config.inc.php');
     }
@@ -456,7 +456,7 @@ function run_fix(string $action, array $p): string
         case 'restore_config':
             $file = basename((string) ($p['file'] ?? ''));
             $path = PMA_DIR . DIRECTORY_SEPARATOR . $file;
-            if (!str_starts_with($file, 'config.inc.php.xf-') || !is_file($path)) throw new RuntimeException('Backup not found');
+            if (!str_starts_with($file, 'config.inc.php.xl-') || !is_file($path)) throw new RuntimeException('Backup not found');
             return write_config(file_get_contents($path));
     }
     throw new RuntimeException("Unknown action: $action");

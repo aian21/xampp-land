@@ -17,7 +17,7 @@ Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 - Checks: mysqli extension, `config.inc.php`, whether MySQL is running (and what is using the port if it isn't), port mismatch, login (`#1045 Access denied`), control user, `blowfish_secret`, tmp folder, and what `/phpmyadmin/` actually returns
 - Reads `mysql_error.log` to explain why MySQL failed to start
 - One-click fixes: start MySQL, set credentials (tested before saving), switch between auto login and login screen, fix port, generate cookie secret, disable control user, reset config, repair MySQL from `mysql\backup` ("MySQL shutdown unexpectedly")
-- Every config change is backed up as `config.inc.php.xf-<date>` and can be restored from the page
+- Every config change is backed up as `config.inc.php.xl-<date>` and can be restored from the page
 - Every change asks for confirmation in a warning dialog first
 
 ## Install

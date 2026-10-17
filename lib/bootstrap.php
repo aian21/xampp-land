@@ -25,10 +25,10 @@ function is_local_request(): bool
 
 function csrf_token(): string
 {
-    if (empty($_SESSION['xf_csrf'])) {
-        $_SESSION['xf_csrf'] = bin2hex(random_bytes(16));
+    if (empty($_SESSION['xl_csrf'])) {
+        $_SESSION['xl_csrf'] = bin2hex(random_bytes(16));
     }
-    return $_SESSION['xf_csrf'];
+    return $_SESSION['xl_csrf'];
 }
 
 function json_out($data, int $code = 200): void
