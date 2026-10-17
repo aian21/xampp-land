@@ -56,15 +56,37 @@ cd C:\xampp\htdocs
 git clone https://github.com/aian21/xampp-land.git
 ```
 
-**2. Make it the landing page.** Back up `C:\xampp\htdocs\index.php`, then replace its contents with:
+**2. Make it the landing page**
 
-```php
-<?php
-header('Location: /xampp-land/');
-exit;
+`http://localhost/` runs `C:\xampp\htdocs\index.php`, which sends you to the XAMPP dashboard. Point it at xampp-land instead:
+
+1. Open `C:\xampp\htdocs` in File Explorer.
+2. Make a copy of `index.php` and rename the copy to `index.php.xampp-original`. This is your backup.
+3. Right-click `index.php` and choose **Open with > Notepad** (or open it in your code editor).
+4. Delete everything in the file and paste this in:
+
+   ```php
+   <?php
+   header('Location: /xampp-land/');
+   exit;
+   ```
+
+5. Save the file.
+
+<details>
+<summary>Or do it from PowerShell</summary>
+
+```powershell
+cd C:\xampp\htdocs
+Copy-Item index.php index.php.xampp-original
+Set-Content index.php "<?php`nheader('Location: /xampp-land/');`nexit;"
 ```
 
+</details>
+
 **3. Open http://localhost/**
+
+Make sure Apache is running in the XAMPP Control Panel. You should land on the Projects tab.
 
 > [!TIP]
 > The folder can have any name. If you rename it, change the redirect in step 2 to match.
@@ -91,7 +113,7 @@ The Doctor reads and edits server config, so it only responds to requests from `
 
 ## Restoring the XAMPP dashboard
 
-Put back your original `htdocs\index.php`, or set it to redirect to `/dashboard/`. The XAMPP dashboard itself is untouched.
+Delete `C:\xampp\htdocs\index.php` and rename `index.php.xampp-original` back to `index.php`. The XAMPP dashboard itself is untouched.
 
 ## Credits
 
