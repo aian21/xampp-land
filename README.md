@@ -26,20 +26,20 @@ Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 
    ```
    cd C:\xampp\htdocs
-   git clone https://github.com/aian21/xampp-land.git xampp-front
+   git clone https://github.com/aian21/xampp-land.git
    ```
 
 2. Make it the landing page. Back up `C:\xampp\htdocs\index.php`, then replace its contents with:
 
    ```php
    <?php
-   header('Location: /xampp-front/');
+   header('Location: /xampp-land/');
    exit;
    ```
 
 3. Open http://localhost/
 
-The folder must be named `xampp-front` and sit directly in `htdocs`, because the page loads its assets from `/xampp-front/`.
+The folder can have any name. If you rename it, change the redirect in step 2 to match.
 
 ## Requirements
 

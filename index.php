@@ -14,7 +14,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>localhost</title>
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/xampp-front/assets/app.css?v=5">
+  <link rel="stylesheet" href="assets/app.css?v=6">
   <script>
     try { const t = localStorage.getItem('xf-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
@@ -226,6 +226,6 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
       'local'   => $local,
       'paths'   => $local ? ['pmaConfig' => PMA_CONFIG, 'mysqlData' => MYSQL_DATA, 'mysqlBackup' => MYSQL_BACKUP, 'mysqld' => MYSQL_DIR . '\\bin\\mysqld.exe'] : null,
   ], JSON_UNESCAPED_SLASHES) ?>;</script>
-  <script src="/xampp-front/assets/app.js?v=5"></script>
+  <script src="assets/app.js?v=6"></script>
 </body>
 </html>

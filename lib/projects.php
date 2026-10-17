@@ -99,7 +99,7 @@ function describe_project(string $name, string $path): array
         'branch'   => $branch,
         'modified' => latest_mtime($path),
         'noIndex'  => $noIndex && $entry === null,
-        'system'   => in_array(strtolower($name), SYSTEM_FOLDERS, true),
+        'system'   => in_array(strtolower($name), SYSTEM_FOLDERS, true) || $name === APP_FOLDER,
         'path'     => $path,
     ];
 }

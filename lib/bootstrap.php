@@ -12,7 +12,8 @@ define('MYSQL_BACKUP', MYSQL_DIR . DIRECTORY_SEPARATOR . 'backup');
 define('IS_WINDOWS', DIRECTORY_SEPARATOR === '\\');
 
 // Folders that ship with XAMPP (or are this app) and aren't user projects.
-const SYSTEM_FOLDERS = ['dashboard', 'img', 'webalizer', 'xampp', 'xampp-front', 'forbidden', 'restricted'];
+const SYSTEM_FOLDERS = ['dashboard', 'img', 'webalizer', 'xampp', 'forbidden', 'restricted'];
+define('APP_FOLDER', basename(dirname(__DIR__)));  // this app's own folder, whatever it's named
 
 session_start();
 
