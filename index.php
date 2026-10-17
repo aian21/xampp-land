@@ -14,7 +14,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>localhost</title>
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="assets/app.css?v=7">
+  <link rel="stylesheet" href="assets/app.css?v=9">
   <script>
     try { const t = localStorage.getItem('xl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
@@ -163,7 +163,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
           <h3>What it does</h3>
           <dl class="about-list">
             <dt>Projects</dt>
-            <dd>Scans <code><?= htmlspecialchars(HTDOCS) ?></code> and detects what each folder is (PHP, Laravel, React, Node and others), its git branch and when it last changed. Search, filter, sort and pin.</dd>
+            <dd>Scans <code><?= htmlspecialchars(HTDOCS) ?></code> and detects what each folder is (PHP, Laravel, React, Node and others), its git branch and when it last changed. Search, filter, sort, pin, and open a project in your code editor.</dd>
             <dt>phpMyAdmin Doctor</dt>
             <dd>Checks MySQL, the phpMyAdmin config and the page itself, and fixes common problems: wrong password, port mismatch, stopped server, broken config, crashed MySQL data. Config changes are backed up first.</dd>
           </dl>
@@ -221,11 +221,24 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
     </form>
   </dialog>
 
-  <script>window.XL = <?= json_encode([
+  <dialog class="modal plain" id="editor-modal" aria-labelledby="editor-title">
+    <form method="dialog">
+      <div class="modal-body">
+        <h2 id="editor-title"></h2>
+        <p class="modal-lead">Editors found on this computer.</p>
+        <div class="editor-list" id="editor-list"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" value="cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>window.XL =<?= json_encode([
       'csrf'    => $token,
       'local'   => $local,
       'paths'   => $local ? ['pmaConfig' => PMA_CONFIG, 'mysqlData' => MYSQL_DATA, 'mysqlBackup' => MYSQL_BACKUP, 'mysqld' => MYSQL_DIR . '\\bin\\mysqld.exe'] : null,
   ], JSON_UNESCAPED_SLASHES) ?>;</script>
-  <script src="assets/app.js?v=7"></script>
+  <script src="assets/app.js?v=9"></script>
 </body>
 </html>

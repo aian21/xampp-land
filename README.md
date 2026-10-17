@@ -34,6 +34,7 @@ Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 - Lists every folder in `htdocs` and detects what it is: PHP, Laravel, CodeIgniter, WordPress, React, React Native, Vue, Angular, Svelte, Next.js, Node, HTML
 - Shows git branch, last change, and tags such as Vite, Tailwind, TypeScript and `.env`
 - Opens Laravel projects at `/public/` and JS projects at their built `dist/` or `build/` folder
+- **Edit** opens a project in your code editor. It lists the editors installed on your PC (VS Code, Cursor, Windsurf, Antigravity, Kiro, Trae, VSCodium, PhpStorm, WebStorm, IntelliJ IDEA, Zed, Sublime Text, Notepad++) and remembers the last one you used
 - Search (`/`), filter by type, sort, grid or list view, pin favourites, copy folder path
 - Lists `.zip` / `.rar` / `.7z` archives sitting in `htdocs`
 
@@ -103,10 +104,11 @@ Make sure Apache is running in the XAMPP Control Panel. You should land on the P
 
 - XAMPP for Windows (tested with PHP 8.2, MariaDB 10.4, phpMyAdmin 5.2)
 - PHP `mysqli` extension (enabled by default in XAMPP)
+- For the editor buttons: start Apache from the XAMPP Control Panel. If Apache runs as a Windows service, editors open in a hidden session and you won't see them.
 
 ## Security
 
-The Doctor reads and edits server config, so it only responds to requests from `localhost`. Fix requests also need a session CSRF token. The project list is visible to anyone who can reach your Apache server, just as `htdocs` already is.
+The Doctor and the editor buttons change things on your PC, so they only respond to requests from `localhost`. Fix requests also need a session CSRF token. The project list is visible to anyone who can reach your Apache server, just as `htdocs` already is.
 
 > [!WARNING]
 > Don't expose XAMPP to the internet.

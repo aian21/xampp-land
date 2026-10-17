@@ -57,6 +57,7 @@
   let filter = store.get('filter', 'All');
   let view = store.get('view', 'grid');
   let pins = new Set(store.get('pins', []));
+  let editors = {};  // id => { name, exe }, detected on the server
   $('#sort').value = store.get('sort', 'recent');
   $('#show-system').checked = store.get('system', false);
 
@@ -88,6 +89,7 @@
       <div class="proj-meta">${tags}</div>
       <div class="proj-actions">
         ${p.entry ? `<a href="${esc(p.url)}" target="_blank" rel="noopener" title="Folder root">root</a>` : ''}
+        ${Object.keys(editors).length ? `<button data-edit="${esc(p.name)}" title="Open in a code editor">Edit</button>` : ''}
         <button data-copy="${esc(p.path)}" title="Copy folder path">Copy path</button>
       </div>
       <button class="pin ${pins.has(p.name) ? 'on' : ''}" data-pin="${esc(p.name)}" title="Pin">${pins.has(p.name) ? 'Unpin' : 'Pin'}</button>
@@ -141,14 +143,44 @@
     }
   }
 
+  // Editors only open on this computer, so they're only offered on localhost.
+  async function loadEditors() {
+    if (!XL.local) return;
+    try { editors = (await api('editors')).editors; } catch (e) { return; }
+    renderProjects();
+  }
+
+  const MARK = { vscode: 'VS', cursor: 'Cu', windsurf: 'Ws', antigravity: 'Ag', kiro: 'Ki', trae: 'Tr', vscodium: 'Vc', insiders: 'VI',
+    phpstorm: 'PS', webstorm: 'WS', idea: 'IJ', zed: 'Ze', sublime: 'ST', notepadpp: 'N++' };
+
+  function pickEditor(project) {
+    const d = $('#editor-modal');
+    const last = store.get('editor', null);
+    $('#editor-title').textContent = `Open ${project} in…`;
+    $('#editor-list').innerHTML = Object.entries(editors).map(([id, e]) =>
+      `<button class="editor-item ${id === last ? 'last' : ''}" value="${esc(id)}">
+        <span class="editor-mark">${esc(MARK[id] || e.name.slice(0, 2))}</span>
+        <span class="editor-info"><span class="editor-name">${esc(e.name)}</span><span class="editor-path" title="${esc(e.exe)}">${esc(e.exe)}</span></span>
+        ${id === last ? '<span class="tag">Last used</span>' : ''}
+      </button>`).join('');
+    d.returnValue = '';
+    d.onclose = () => {
+      const id = d.returnValue;
+      if (!editors[id]) return;
+      store.set('editor', id);
+      api('open_editor', { editor: id, project }).then((r) => toast(r.message), (err) => toast(err.message, true));
+    };
+    d.showModal();
+    ($('#editor-list .last') || $('#editor-list .editor-item'))?.focus();
+  }
+
   // Any change to what's listed starts again from the first page.
   const rerender = () => { shown = PAGE; renderProjects(); };
   $('#more-btn').onclick = () => { shown += PAGE; renderProjects(); };
   $('#more-all').onclick = () => { shown = Infinity; renderProjects(); };
   $('#q').oninput = rerender;
   $('#sort').onchange = () => { store.set('sort', $('#sort').value); rerender(); };
-  $('#show-system').onchange = () => { store.set('system', $('#show-system').checked); rerender(); };
-  $('#view').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; view = b.dataset.view; store.set('view', view); renderProjects(); };
+  $('#show-system').onchange = () => { store.set('system', $('#show-system').checked); rerender(); };  $('#view').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; view = b.dataset.view; store.set('view', view); renderProjects(); };
   $('#chips').onclick = (e) => { const c = e.target.closest('.chip'); if (!c) return; filter = c.dataset.type; store.set('filter', filter); rerender(); };
   $('#panel-projects').addEventListener('click', (e) => {
     const pin = e.target.closest('[data-pin]');
@@ -158,6 +190,8 @@
       store.set('pins', [...pins]); renderProjects();
       return;
     }
+    const ed = e.target.closest('[data-edit]');
+    if (ed) { pickEditor(ed.dataset.edit); return; }
     const cp = e.target.closest('[data-copy]');
     if (cp) navigator.clipboard?.writeText(cp.dataset.copy).then(() => toast('Copied ' + cp.dataset.copy), () => toast(cp.dataset.copy));
   });
@@ -401,5 +435,6 @@
   /* ---------------- boot ---------------- */
   loadStatus();
   loadProjects();
+  loadEditors();
   showTab(['#doctor', '#about'].includes(location.hash) ? location.hash.slice(1) : 'projects');
 })();
