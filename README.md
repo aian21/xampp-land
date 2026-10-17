@@ -1,4 +1,4 @@
-# xampp-front
+# xampp-land
 
 A replacement landing page for XAMPP on Windows. It lists every project in `htdocs` and fixes phpMyAdmin when it stops working.
 
@@ -26,7 +26,7 @@ Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 
    ```
    cd C:\xampp\htdocs
-   git clone https://github.com/aian21/xampp-front.git
+   git clone https://github.com/aian21/xampp-land.git xampp-front
    ```
 
 2. Make it the landing page. Back up `C:\xampp\htdocs\index.php`, then replace its contents with:
