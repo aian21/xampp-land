@@ -14,7 +14,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>localhost</title>
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="assets/app.css?v=10">
+  <link rel="stylesheet" href="assets/app.css?v=11">
   <script>
     try { const t = localStorage.getItem('xl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
