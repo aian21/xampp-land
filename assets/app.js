@@ -18,7 +18,7 @@
   };
 
   async function api(action, body) {
-    const opts = body ? { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': XF.csrf }, body: JSON.stringify(body) } : {};
+    const opts = body ? { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': XL.csrf }, body: JSON.stringify(body) } : {};
     const res = await fetch(`${API}?action=${action}`, opts);
     const data = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
     if (!res.ok || data.error) throw new Error(data.error || `HTTP ${res.status}`);
@@ -37,7 +37,7 @@
     $$('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
     $$('.panel').forEach((p) => (p.hidden = p.id !== 'panel-' + name));
     if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
-    if (name === 'doctor' && !doctorLoaded && XF.local) diagnose();
+    if (name === 'doctor' && !doctorLoaded && XL.local) diagnose();
   }
   $$('.tab').forEach((t) => (t.onclick = () => showTab(t.dataset.tab)));
 
@@ -172,7 +172,7 @@
   const ICON = { ok: '✓', warn: '!', fail: '✕', info: 'i' };
 
   async function diagnose() {
-    if (!XF.local) return;
+    if (!XL.local) return;
     doctorLoaded = true;
     const btn = $('#run');
     btn.disabled = true; btn.textContent = 'Checking…';
@@ -235,7 +235,7 @@
   }
 
   /* What each write action does, shown in the warning modal before it runs. */
-  const P = XF.paths || {};
+  const P = XL.paths || {};
   const CFG_BACKUP = 'A copy of the current file is saved as config.inc.php.xl-<date> first, and can be restored under Other tools.';
   const WARNINGS = {
     save_connection: (p) => ({
@@ -357,7 +357,7 @@
     }
   }
 
-  if (XF.local) {
+  if (XL.local) {
     $('#run').onclick = diagnose;
 
     $('#panel-doctor').addEventListener('click', async (e) => {

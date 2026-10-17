@@ -221,7 +221,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
     </form>
   </dialog>
 
-  <script>window.XF = <?= json_encode([
+  <script>window.XL = <?= json_encode([
       'csrf'    => $token,
       'local'   => $local,
       'paths'   => $local ? ['pmaConfig' => PMA_CONFIG, 'mysqlData' => MYSQL_DATA, 'mysqlBackup' => MYSQL_BACKUP, 'mysqld' => MYSQL_DIR . '\\bin\\mysqld.exe'] : null,
