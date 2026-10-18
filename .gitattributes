@@ -1,1 +1,6 @@
 * text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+
+# Keep the README images out of downloaded zips
+docs/ export-ignore
