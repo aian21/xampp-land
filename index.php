@@ -17,7 +17,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?= $host ?></title>
   <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="assets/app.css?v=11">
+  <link rel="stylesheet" href="assets/app.css?v=13">
   <script>
     try { const t = localStorage.getItem('xl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
@@ -48,6 +48,12 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
   </header>
 
   <main class="wrap">
+    <div class="banner" id="alert" role="alert" hidden>
+      <span class="ico fail">✕</span>
+      <div class="banner-body"><strong id="alert-title"></strong><p id="alert-detail"></p></div>
+      <div class="row" id="alert-actions"></div>
+      <button class="banner-close" id="alert-close" title="Hide until something changes" aria-label="Dismiss">×</button>
+    </div>
     <!-- Projects -->
     <section id="panel-projects" class="panel">
       <div class="toolbar">
@@ -242,6 +248,6 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
       'local'   => $local,
       'paths'   => $local ? ['pmaConfig' => PMA_CONFIG, 'mysqlData' => MYSQL_DATA, 'mysqlBackup' => MYSQL_BACKUP, 'mysqld' => MYSQL_DIR . '\\bin\\mysqld.exe'] : null,
   ], JSON_UNESCAPED_SLASHES) ?>;</script>
-  <script src="assets/app.js?v=12"></script>
+  <script src="assets/app.js?v=13"></script>
 </body>
 </html>

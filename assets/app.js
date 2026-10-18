@@ -37,18 +37,27 @@
     $$('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === name));
     $$('.panel').forEach((p) => (p.hidden = p.id !== 'panel-' + name));
     if (location.hash !== '#' + name) history.replaceState(null, '', '#' + name);
+    $('#alert').hidden = name === 'doctor' || !alertKey || alertKey === dismissed;
     if (name === 'doctor' && !doctorLoaded && XL.local) diagnose();
   }
   $$('.tab').forEach((t) => (t.onclick = () => showTab(t.dataset.tab)));
 
   /* ---------------- status ---------------- */
+  let mysqlUp = null;
   async function loadStatus() {
     try {
       const s = await api('status');
       $('#st-php').textContent = 'PHP ' + s.php;
       $('#st-mysql').innerHTML = `<i class="dot ${s.mysql.up ? 'ok' : 'fail'}"></i>MySQL ${s.mysql.up ? ':' + s.mysql.port : 'stopped'}`;
+      // MySQL started or stopped since the last look: say so and re-run the checks.
+      if (mysqlUp !== null && s.mysql.up !== mysqlUp) {
+        toast(s.mysql.up ? 'MySQL is running again' : 'MySQL stopped', !s.mysql.up);
+        if (XL.local) diagnose();
+      }
+      mysqlUp = s.mysql.up;
     } catch (e) {}
   }
+  setInterval(() => { if (!document.hidden) loadStatus(); }, 10000);
 
   /* ---------------- projects ---------------- */
   let projects = [], archives = [];
@@ -230,6 +239,7 @@
       : `phpMyAdmin should work${warns ? ` (${warns} warning${warns > 1 ? 's' : ''})` : ''}.`;
     $('#tab-issues').hidden = !problems;
     $('#tab-issues').textContent = problems;
+    renderAlert(d.checks);
 
     $('#checks').innerHTML = d.checks.map((c) => `<li class="check">
       <span class="ico ${c.status}">${ICON[c.status]}</span>
@@ -256,6 +266,31 @@
     $('#backups').innerHTML = d.backups.map((b) => `<option value="${esc(b.file)}">${new Date(b.modified * 1000).toLocaleString()}</option>`).join('');
     loadStatus();
   }
+
+  // Banner above every tab when the Doctor finds a problem, so it's seen without opening the Doctor.
+  let alertKey = '', dismissed = '';
+  function renderAlert(checks) {
+    const fails = checks.filter((c) => c.status === 'fail');
+    alertKey = fails.map((c) => c.id).join(',');
+    const a = $('#alert');
+    a.hidden = !fails.length || alertKey === dismissed || $('#panel-doctor').hidden === false;
+    if (!fails.length) return;
+    const first = fails[0];
+    $('#alert-title').textContent = first.label + (fails.length > 1 ? ` (+${fails.length - 1} more)` : '');
+    $('#alert-detail').textContent = first.detail || '';
+    const fix = first.fix && first.fix.action !== 'open_credentials' ? first.fix : null;
+    $('#alert-actions').innerHTML =
+      (fix ? `<button class="btn ${fix.danger ? 'danger' : 'primary'}" data-fix="${esc(fix.action)}" ${fix.params ? `data-params='${esc(JSON.stringify(fix.params))}'` : ''}>${esc(fix.label)}</button>` : '') +
+      `<button class="btn" data-goto="doctor">Open Doctor</button>`;
+  }
+  $('#alert').addEventListener('click', async (e) => {
+    if (e.target.closest('#alert-close')) { dismissed = alertKey; $('#alert').hidden = true; return; }
+    if (e.target.closest('[data-goto]')) { showTab('doctor'); return; }
+    const b = e.target.closest('[data-fix]');
+    if (!b) return;
+    try { if (!(await runFix(b, b.dataset.fix, b.dataset.params ? JSON.parse(b.dataset.params) : {}))) return; } catch (err) {}
+    diagnose();
+  });
 
   const AUTH_HELP = {
     config: 'phpMyAdmin logs in automatically with these credentials (XAMPP default).',
@@ -439,4 +474,5 @@
   loadProjects();
   loadEditors();
   showTab(['#doctor', '#about'].includes(location.hash) ? location.hash.slice(1) : 'projects');
+  if (XL.local && !doctorLoaded) diagnose();  // in the background, so problems show up without opening the Doctor
 })();
