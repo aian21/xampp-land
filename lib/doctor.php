@@ -367,26 +367,37 @@ function restore_mysql_data(): string
         throw new RuntimeException('Could not rename the data folder. Close anything using it and try again.');
     }
     $log = ['Moved data → ' . basename($old)];
-    copy_dir(MYSQL_BACKUP, MYSQL_DATA);
-    $log[] = 'Copied fresh system tables from backup';
 
     $skip = ['mysql', 'performance_schema', 'phpmyadmin', 'test'];
     $dbs = [];
-    foreach (scandir($old) ?: [] as $f) {
-        if ($f === '.' || $f === '..' || in_array(strtolower($f), $skip, true) || !is_dir($old . DIRECTORY_SEPARATOR . $f)) continue;
-        copy_dir($old . DIRECTORY_SEPARATOR . $f, MYSQL_DATA . DIRECTORY_SEPARATOR . $f);
-        $dbs[] = $f;
+    try {
+        copy_dir(MYSQL_BACKUP, MYSQL_DATA);
+        $log[] = 'Copied fresh system tables from backup';
+        foreach (scandir($old) ?: [] as $f) {
+            if ($f === '.' || $f === '..' || in_array(strtolower($f), $skip, true) || !is_dir($old . DIRECTORY_SEPARATOR . $f)) continue;
+            copy_dir($old . DIRECTORY_SEPARATOR . $f, MYSQL_DATA . DIRECTORY_SEPARATOR . $f);
+            $dbs[] = $f;
+        }
+        if (is_file($old . '\\ibdata1') && !@copy($old . '\\ibdata1', MYSQL_DATA . '\\ibdata1')) {
+            throw new RuntimeException('Could not copy ibdata1');
+        }
+    } catch (RuntimeException $e) {
+        // Put the original folder back exactly as it was; keep the half-built one for inspection.
+        $failed = MYSQL_DATA . '_failed_' . date('Ymd-His');
+        @rename(MYSQL_DATA, $failed);
+        if (!@rename($old, MYSQL_DATA)) {
+            throw new RuntimeException($e->getMessage() . '. Your original data is safe in ' . $old . '. Rename it back to "data" by hand.');
+        }
+        throw new RuntimeException($e->getMessage() . '. Nothing was changed: your original data folder is back in place.');
     }
     $log[] = 'Restored ' . count($dbs) . ' databases' . ($dbs ? ': ' . implode(', ', $dbs) : '');
-    if (is_file($old . '\\ibdata1')) {
-        copy($old . '\\ibdata1', MYSQL_DATA . '\\ibdata1');
-        $log[] = 'Restored ibdata1';
-    }
+    if (is_file($old . '\\ibdata1')) $log[] = 'Restored ibdata1';
     try {
         $log[] = start_mysql();
     } catch (RuntimeException $e) {
         $log[] = $e->getMessage();
     }
+    $log[] = 'Check your databases in phpMyAdmin. Keep ' . $old . ' until you are sure nothing is missing.';
     return implode("\n", $log);
 }
 

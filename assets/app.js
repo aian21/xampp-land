@@ -303,10 +303,12 @@
     }),
     restore_mysql_data: () => ({
       title: 'Repair MySQL from backup?',
-      lead: 'Rebuilds the MySQL data folder. Only use this when MySQL refuses to start.',
+      lead: 'Rebuilds the MySQL data folder. Only use this when MySQL refuses to start and Start MySQL has already failed.',
       points: [
-        `The current data folder is renamed to data_old_<date>. Nothing is deleted.`,
+        'Before you continue, copy the whole data folder below somewhere safe (Desktop or a USB drive). It is the only complete copy of your databases.',
+        `The current data folder is renamed to data_old_<date>. Nothing is deleted. If a copy step fails, it is put back automatically.`,
         'System tables are copied fresh from the backup folder, then your databases and ibdata1 are copied back.',
+        'Do not delete data_old_<date> until you have opened every database in phpMyAdmin and checked your tables. InnoDB tables can come back empty or broken.',
         'All MySQL user accounts and passwords reset to XAMPP defaults (root with no password).',
         'MySQL must be stopped. This can take several minutes for large databases.',
       ],
