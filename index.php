@@ -176,7 +176,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
           </dl>
 
           <h3>Going back to the XAMPP dashboard</h3>
-          <p class="muted">The original <code>htdocs\index.php</code> is saved as <code>index.php.xampp-original</code>. Rename it back to restore the default landing page. The old dashboard is still at <a href="/dashboard/">/dashboard/</a>.</p>
+          <p class="muted">Run <code>uninstall.bat</code> in this app's folder. It puts back the original <code>htdocs\index.php</code>, which was saved as <code>index.php.xampp-original</code>. The old dashboard is still at <a href="/dashboard/">/dashboard/</a>.</p>
         </div>
 
         <aside class="about-side">
@@ -239,6 +239,6 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
       'local'   => $local,
       'paths'   => $local ? ['pmaConfig' => PMA_CONFIG, 'mysqlData' => MYSQL_DATA, 'mysqlBackup' => MYSQL_BACKUP, 'mysqld' => MYSQL_DIR . '\\bin\\mysqld.exe'] : null,
   ], JSON_UNESCAPED_SLASHES) ?>;</script>
-  <script src="assets/app.js?v=9"></script>
+  <script src="assets/app.js?v=12"></script>
 </body>
 </html>

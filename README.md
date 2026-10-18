@@ -7,11 +7,13 @@
   <img src="https://img.shields.io/badge/XAMPP-Windows-fb7a24?style=flat-square&logo=xampp&logoColor=white" alt="XAMPP for Windows">
   <img src="https://img.shields.io/badge/dependencies-none-1f9d55?style=flat-square" alt="No dependencies">
   <img src="https://img.shields.io/badge/build_step-none-1f9d55?style=flat-square" alt="No build step">
+  <img src="https://img.shields.io/badge/license-MIT-646b78?style=flat-square" alt="MIT license">
 </p>
 
 <p align="center">
   <a href="#features">Features</a> ·
   <a href="#install">Install</a> ·
+  <a href="#uninstall">Uninstall</a> ·
   <a href="#keyboard">Keyboard</a> ·
   <a href="#security">Security</a>
 </p>
@@ -48,23 +50,43 @@ Plain PHP, CSS and JavaScript. No build step, no dependencies, works offline.
 - Every config change is backed up as `config.inc.php.xl-<date>` and can be restored from the page
 - Every change asks for confirmation in a warning dialog first
 
+> [!CAUTION]
+> **Repair MySQL from backup** is a last resort for "MySQL shutdown unexpectedly". Before you press it, copy your whole `xampp\mysql\data` folder somewhere safe. The repair moves your current data to `mysql\data_old_<date>` (and puts it back if a step fails), but InnoDB tables can still come back empty or broken. Keep `data_old_<date>` until you have checked every database in phpMyAdmin.
+
 ## Install
 
-**1. Clone into `htdocs`**
+> [!NOTE]
+> These steps use `C:\xampp`. If XAMPP is somewhere else, like `D:\xampp` or a USB drive, use that folder instead. Nothing in xampp-land depends on where XAMPP is installed.
+
+**1. Download it**
+
+[**Download the ZIP**](https://github.com/aian21/xampp-land/archive/refs/heads/main.zip), then extract it into `C:\xampp\htdocs`. You should end up with a folder like `C:\xampp\htdocs\xampp-land-main` with `install.bat` inside. The folder can have any name.
+
+<details>
+<summary>Or clone it with git</summary>
 
 ```
 cd C:\xampp\htdocs
 git clone https://github.com/aian21/xampp-land.git
 ```
 
-**2. Make it the landing page**
+</details>
 
-`http://localhost/` runs `C:\xampp\htdocs\index.php`, which sends you to the XAMPP dashboard. Point it at xampp-land instead:
+**2. Double-click `install.bat`**
+
+It backs up `htdocs\index.php` as `index.php.xampp-original`, points `http://localhost/` at xampp-land, and opens it in your browser.
+
+**3. Start Apache** in the XAMPP Control Panel if it isn't running, then go to http://localhost/
+
+<details>
+<summary>Do step 2 by hand instead</summary>
+
+`http://localhost/` runs `C:\xampp\htdocs\index.php`, which sends you to the XAMPP dashboard. To point it at xampp-land:
 
 1. Open `C:\xampp\htdocs` in File Explorer.
 2. Make a copy of `index.php` and rename the copy to `index.php.xampp-original`. This is your backup.
 3. Right-click `index.php` and choose **Open with > Notepad** (or open it in your code editor).
-4. Delete everything in the file and paste this in:
+4. Delete everything in the file and paste this in, with your folder's name in place of `xampp-land`:
 
    ```php
    <?php
@@ -74,23 +96,7 @@ git clone https://github.com/aian21/xampp-land.git
 
 5. Save the file.
 
-<details>
-<summary>Or do it from PowerShell</summary>
-
-```powershell
-cd C:\xampp\htdocs
-Copy-Item index.php index.php.xampp-original
-Set-Content index.php "<?php`nheader('Location: /xampp-land/');`nexit;"
-```
-
 </details>
-
-**3. Open http://localhost/**
-
-Make sure Apache is running in the XAMPP Control Panel. You should land on the Projects tab.
-
-> [!TIP]
-> The folder can have any name. If you rename it, change the redirect in step 2 to match.
 
 ## Keyboard
 
@@ -113,9 +119,15 @@ The Doctor and the editor buttons change things on your PC, so they only respond
 > [!WARNING]
 > Don't expose XAMPP to the internet.
 
-## Restoring the XAMPP dashboard
+## Uninstall
 
-Delete `C:\xampp\htdocs\index.php` and rename `index.php.xampp-original` back to `index.php`. The XAMPP dashboard itself is untouched.
+Double-click `uninstall.bat`. It puts your original `htdocs\index.php` back, so `http://localhost/` opens the XAMPP dashboard again. Then you can delete the folder.
+
+By hand: delete `htdocs\index.php` and rename `index.php.xampp-original` back to `index.php`.
+
+## License
+
+[MIT](LICENSE). Use it, change it, share it.
 
 ## Credits
 
