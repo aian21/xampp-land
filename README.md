@@ -74,9 +74,9 @@ git clone https://github.com/aian21/xampp-land.git
 
 **2. Double-click `install.bat`**
 
-It backs up `htdocs\index.php` as `index.php.xampp-original`, points `http://localhost/` at xampp-land, and opens it in your browser.
+It backs up `htdocs\index.php` as `index.php.xampp-original`, points `http://localhost/` at xampp-land, and opens it in your browser. If you changed Apache's port, it reads it from `httpd.conf` and opens the right address, like `http://localhost:8012/`.
 
-**3. Start Apache** in the XAMPP Control Panel if it isn't running, then go to http://localhost/
+**3. Start Apache** in the XAMPP Control Panel if it isn't running, then go to http://localhost/ (add your port if it isn't 80, e.g. `http://localhost:8012/`)
 
 <details>
 <summary>Do step 2 by hand instead</summary>

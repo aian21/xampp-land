@@ -22,10 +22,19 @@ function is_ours(string $file): bool
     return $src !== false && str_contains($src, 'xampp-land');
 }
 
+/** http://localhost/ with the port Apache listens on, read from httpd.conf. */
+function local_url(string $xampp): string
+{
+    $conf = (string) @file_get_contents($xampp . '\apache\conf\httpd.conf');
+    $port = preg_match('/^\s*Listen\s+(?:\S+:)?(\d+)\s*$/m', $conf, $m) ? (int) $m[1] : 80;
+    return 'http://localhost' . ($port === 80 ? '' : ':' . $port) . '/';
+}
+
 if (basename($htdocs) !== 'htdocs' || !is_dir(dirname($htdocs) . DIRECTORY_SEPARATOR . 'apache')) {
     fail("This folder must sit directly inside xampp\\htdocs.\n       It is in: $htdocs");
 }
 
+$url = local_url(dirname($htdocs));
 $mode = $argv[1] ?? 'install';
 
 if ($mode === 'install') {
@@ -46,7 +55,13 @@ if ($mode === 'install') {
         . "exit;\n";
     if (@file_put_contents($index, $src) === false) fail("Could not write $index (is it read-only?)");
 
-    say('http://localhost/ now opens ' . $name . '.');
+    say($url . ' now opens ' . $name . '.');
+    if (!in_array('--no-browser', $argv, true)) {
+        say('');
+        say('Make sure Apache is started in the XAMPP Control Panel.');
+        say('Opening ' . $url . ' ...');
+        pclose(popen('start "" "' . $url . '"', 'r'));
+    }
     exit(0);
 }
 
@@ -57,7 +72,7 @@ if ($mode === 'uninstall') {
     }
     if (is_file($backup)) {
         if (!@unlink($index) || !@rename($backup, $index)) fail("Could not restore $backup");
-        say('Restored your original index.php. http://localhost/ is back to how it was.');
+        say('Restored your original index.php. ' . $url . ' is back to how it was.');
         exit(0);
     } else {
         // No backup: put back the redirect XAMPP ships with.
@@ -70,7 +85,7 @@ if ($mode === 'uninstall') {
         if (@file_put_contents($index, $stock) === false) fail("Could not write $index");
         say('No backup found, so index.php was reset to the XAMPP default.');
     }
-    say('http://localhost/ opens the XAMPP dashboard again.');
+    say($url . ' opens the XAMPP dashboard again.');
     exit(0);
 }
 

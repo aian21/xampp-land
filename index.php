@@ -2,6 +2,9 @@
 require __DIR__ . '/lib/bootstrap.php';
 $token = csrf_token();
 $local = is_local_request();
+$host = htmlspecialchars($_SERVER['HTTP_HOST'] ?? 'localhost');  // includes the port when it isn't 80, e.g. localhost:8012
+$port = (int) ($_SERVER['SERVER_PORT'] ?? 80);
+$localUrl = 'http://localhost' . ($port === 80 ? '' : ':' . $port) . '/';
 
 // Versions for the About tab, read from the install itself.
 $pmaVersion = preg_match("/VERSION = '([^']+)'/", (string) @file_get_contents(PMA_DIR . '/libraries/classes/Version.php'), $m) ? $m[1] : 'unknown';
@@ -12,7 +15,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>localhost</title>
+  <title><?= $host ?></title>
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="assets/app.css?v=11">
   <script>
@@ -24,7 +27,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
     <div class="wrap top-inner">
       <a class="brand" href="/">
         
-        <span>localhost<span class="muted">/htdocs</span></span>
+        <span><?= $host ?><span class="muted">/htdocs</span></span>
       </a>
       <div class="status" id="status">
         <span class="pill"><i class="dot ok"></i>Apache</span>
@@ -86,7 +89,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
     <!-- Doctor -->
     <section id="panel-doctor" class="panel" hidden>
       <?php if (!$local): ?>
-        <div class="notice fail">The phpMyAdmin doctor only works when you open this page from the XAMPP computer itself (http://localhost/).</div>
+        <div class="notice fail">The phpMyAdmin doctor only works when you open this page from the XAMPP computer itself (<?= $localUrl ?>).</div>
       <?php else: ?>
       <div class="doctor-head">
         <div>
