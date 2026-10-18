@@ -43,10 +43,14 @@
   $$('.tab').forEach((t) => (t.onclick = () => showTab(t.dataset.tab)));
 
   /* ---------------- status ---------------- */
-  let mysqlUp = null;
+  // Polled every 2 s while the tab is visible. The server side is a single local port check, so it's cheap.
+  let mysqlUp = null, apacheUp = true, statusBusy = false;
   async function loadStatus() {
+    if (statusBusy) return;
+    statusBusy = true;
     try {
       const s = await api('status');
+      if (!apacheUp) { apacheUp = true; toast('Apache is running again'); $('#st-apache').innerHTML = '<i class="dot ok"></i>Apache'; }
       $('#st-php').textContent = 'PHP ' + s.php;
       $('#st-mysql').innerHTML = `<i class="dot ${s.mysql.up ? 'ok' : 'fail'}"></i>MySQL ${s.mysql.up ? ':' + s.mysql.port : 'stopped'}`;
       // MySQL started or stopped since the last look: say so and re-run the checks.
@@ -55,9 +59,21 @@
         if (XL.local) diagnose();
       }
       mysqlUp = s.mysql.up;
-    } catch (e) {}
+    } catch (e) {
+      // fetch() itself failing means nothing answered: Apache is down.
+      if (e instanceof TypeError && apacheUp) {
+        apacheUp = false;
+        toast('Apache stopped. Start it in the XAMPP Control Panel.', true);
+        $('#st-apache').innerHTML = '<i class="dot fail"></i>Apache stopped';
+        $('#st-mysql').innerHTML = '<i class="dot"></i>MySQL';
+        mysqlUp = null;
+      }
+    } finally {
+      statusBusy = false;
+    }
   }
-  setInterval(() => { if (!document.hidden) loadStatus(); }, 10000);
+  setInterval(() => { if (!document.hidden) loadStatus(); }, 2000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) loadStatus(); });
 
   /* ---------------- projects ---------------- */
   let projects = [], archives = [];

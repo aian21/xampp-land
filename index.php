@@ -30,7 +30,7 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
         <span><?= $host ?><span class="muted">/htdocs</span></span>
       </a>
       <div class="status" id="status">
-        <span class="pill"><i class="dot ok"></i>Apache</span>
+        <span class="pill" id="st-apache"><i class="dot ok"></i>Apache</span>
         <span class="pill" id="st-mysql"><i class="dot"></i>MySQL</span>
         <span class="pill muted" id="st-php">PHP</span>
       </div>
@@ -248,6 +248,6 @@ $apacheVersion = preg_match('#Apache/(\S+)#', $_SERVER['SERVER_SOFTWARE'] ?? '',
       'local'   => $local,
       'paths'   => $local ? ['pmaConfig' => PMA_CONFIG, 'mysqlData' => MYSQL_DATA, 'mysqlBackup' => MYSQL_BACKUP, 'mysqld' => MYSQL_DIR . '\\bin\\mysqld.exe'] : null,
   ], JSON_UNESCAPED_SLASHES) ?>;</script>
-  <script src="assets/app.js?v=13"></script>
+  <script src="assets/app.js?v=14"></script>
 </body>
 </html>
